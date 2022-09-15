@@ -186,7 +186,7 @@ data "aws_iam_policy_document" jenkins_controller_task_policy {
       "ssm:GetParameter",
       "ssm:GetParameters"
     ]
-    resources = ["arn:aws:ssm:${local.region}:${local.account_id}:parameter/jenkins*"]
+    resources = ["arn:aws:ssm:${local.region}:${local.account_id}:parameter/*"]
   }
   statement {
     effect = "Allow"

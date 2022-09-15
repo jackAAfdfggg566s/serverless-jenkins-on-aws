@@ -1,13 +1,26 @@
 // Jenkins Container Infra (Fargate)
 resource "aws_ecs_cluster" jenkins_controller {
   name               = "${var.name_prefix}-main"
-  capacity_providers = ["FARGATE"]
+  # capacity_providers = ["FARGATE"]
   tags               = var.tags
   setting {
     name = "containerInsights"
     value = "enabled"
   }
 }
+
+resource "aws_ecs_cluster_capacity_providers" "jenkins_controller" {
+  cluster_name = aws_ecs_cluster.jenkins_controller.name
+
+  capacity_providers = ["FARGATE"]
+
+  default_capacity_provider_strategy {
+    base              = 1
+    weight            = 100
+    capacity_provider = "FARGATE"
+  }
+}
+
 
 resource "aws_ecs_cluster" jenkins_agents {
   name               = "${var.name_prefix}-spot"
@@ -109,7 +122,7 @@ resource "aws_ecs_service" jenkins_controller {
   network_configuration {
     subnets          = var.jenkins_controller_subnet_ids
     security_groups  = [aws_security_group.jenkins_controller_security_group.id]
-    assign_public_ip = false
+    assign_public_ip = true
   }
 
   depends_on = [aws_lb_listener.https]

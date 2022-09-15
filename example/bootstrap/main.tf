@@ -1,8 +1,8 @@
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 locals {
-  account_id  = data.aws_caller_identity.current.account_id
-  region      = data.aws_region.current.name
+  account_id = data.aws_caller_identity.current.account_id
+  region     = data.aws_region.current.name
 
   tags = {
     team     = "devops"
@@ -12,20 +12,24 @@ locals {
 
 resource "aws_s3_bucket" "this" {
   bucket = var.state_bucket_name
+  tags = local.tags
+}
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm     = "AES256"
-      }
+resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
+  bucket = aws_s3_bucket.this.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "AES256"
     }
   }
+}
 
-  versioning {
-    enabled = true
+resource "aws_s3_bucket_versioning" "this" {
+  bucket = aws_s3_bucket.this.id
+  versioning_configuration {
+    status = "Enabled"
   }
-
-  tags = local.tags
 }
 
 resource "aws_s3_bucket_public_access_block" "this" {
@@ -37,10 +41,10 @@ resource "aws_s3_bucket_public_access_block" "this" {
 }
 
 resource "aws_dynamodb_table" "this" {
-  name = var.state_lock_table_name
-  hash_key = "LockID"
-  billing_mode     = "PAY_PER_REQUEST"
- 
+  name         = var.state_lock_table_name
+  hash_key     = "LockID"
+  billing_mode = "PAY_PER_REQUEST"
+
   attribute {
     name = "LockID"
     type = "S"
@@ -49,7 +53,7 @@ resource "aws_dynamodb_table" "this" {
   server_side_encryption {
     enabled = true
   }
- 
+
   # tags {
   #   Name = "DynamoDB Terraform State Lock Table"
   # }
