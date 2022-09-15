@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
 # export TERRAFORM_WORKSPACE=jason-local-farm-runner
-export TF_STATE_BUCKET="my-state-bucket-jenkins-dex"
-export TF_STATE_OBJECT_KEY="serverless-jenkins.tfstate"
-export TF_LOCK_DB="my-lock-table"
-export AWS_REGION="us-east-1"
+export TF_STATE_BUCKET="xxx" # update your details
+export TF_STATE_OBJECT_KEY="serverless-jenkins.tfstate" # update your details
+export TF_LOCK_DB="xxx" # update your details
+export AWS_REGION="xxx" # update your details
 
-PRIVATE_SUBNETS='["subnet-02d4f2132a9f75abb", "subnet-018de25e8423eaa06"]'
-PUBLIC_SUBNETS='["subnet-06f440c867ed2b5ba", "subnet-06fa5fd1f656693c8"]'
-VPC_ID="vpc-055d465b2185d2c99"
+PRIVATE_SUBNETS='["subnet-xxx", "subnet-xxx"]' # update your details
+PUBLIC_SUBNETS='["subnet-xxx", "subnet-xxx"]' # update your details
+VPC_ID="vpc-xxx" # update your details
 
 export TF_VAR_route53_create_alias="false"
-export TF_VAR_route53_zone_id="Z089767116Y1PB5RTZVMY"
-export TF_VAR_route53_domain_name="devopsguru.link"
-# export TF_VAR_jenkins_admin_password="ecsuser"
+export TF_VAR_route53_zone_id="xxx" # update your details
+export TF_VAR_route53_domain_name="xxx.xxx" # update your details
+# export TF_VAR_jenkins_admin_password="xxx"
 
 export TF_VAR_vpc_id=${VPC_ID}
 export TF_VAR_efs_subnet_ids=${PRIVATE_SUBNETS}

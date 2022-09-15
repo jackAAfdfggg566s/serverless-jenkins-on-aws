@@ -27,6 +27,25 @@ The following are required to deploy this Terraform module
 1. An admin password for Jenkins must be stored in SSM Parameter store. This parameter must be of type `SecureString` and have the name `jenkins-pwd`. Username is `ecsuser`.
 1. Terraform must be bootstrapped. This means that a state S3 bucket and a state locking DynamoDB table must be initialized.
 
+update below details in `example/vars.sh`
+
+```
+export TF_STATE_BUCKET="xxx" # update your details
+export TF_STATE_OBJECT_KEY="serverless-jenkins.tfstate" # update your details
+export TF_LOCK_DB="xxx" # update your details
+export AWS_REGION="xxx" # update your details
+
+PRIVATE_SUBNETS='["subnet-xxx", "subnet-xxx"]' # update your details
+PUBLIC_SUBNETS='["subnet-xxx", "subnet-xxx"]' # update your details
+VPC_ID="vpc-xxx" # update your details
+
+export TF_VAR_route53_create_alias="false"
+export TF_VAR_route53_zone_id="xxx" # update your details
+export TF_VAR_route53_domain_name="xxx.xxx" # update your details
+# export TF_VAR_jenkins_admin_password="xxx"
+```
+
+
 ## Deployment
 This is packaged as a Terraform module, which means it's not directly deployable. However, there is a deployable example in the `example` directory. To deploy the example:
 
