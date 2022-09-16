@@ -56,7 +56,12 @@ resource "null_resource" "build_docker_image" {
   provisioner "local-exec" {
     command = <<EOF
 docker login -u AWS -p ${data.aws_ecr_authorization_token.token.password} ${local.ecr_endpoint} && \
-docker buildx build --platform=linux/amd64 -t ${aws_ecr_repository.jenkins_controller.repository_url}:latest ${path.module}/docker/ && \
+## For M1 and M1 pro mac users
+docker buildx build -t ${aws_ecr_repository.jenkins_controller.repository_url}:latest ${path.module}/docker/ && \
+
+# For Linux and Windows WSL users use the default docker build
+# docker build -t ${aws_ecr_repository.jenkins_controller.repository_url}:latest ${path.module}/docker/ && \
+
 docker push ${aws_ecr_repository.jenkins_controller.repository_url}:latest
 EOF
   }

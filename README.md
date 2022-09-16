@@ -44,8 +44,13 @@ export TF_VAR_route53_zone_id="xxx" # update your details
 export TF_VAR_route53_domain_name="xxx.xxx" # update your details
 # export TF_VAR_jenkins_admin_password="xxx"
 ```
+### setup local AWS ECR local login
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 
 
-
+ For Linux and Windows WSL users use the default docker build
+```
+ docker build -t ${aws_ecr_repository.jenkins_controller.repository_url}:latest ${path.module}/docker/ && \
+```
 ## Deployment
 This is packaged as a Terraform module, which means it's not directly deployable. However, there is a deployable example in the `example` directory. To deploy the example:
 
