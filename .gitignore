@@ -1,9 +1,9 @@
 .idea/
 .terraform/
 *.tfstate
-# ./*.tfstate
-# example/*.tfstate
-# !bootstrap/*.tfstate
+./*.tfstate
+example/*.tfstate
+!bootstrap/*.tfstate
 example/vars.sh
 *.tfstate.backup
 .terraform.tfvars
