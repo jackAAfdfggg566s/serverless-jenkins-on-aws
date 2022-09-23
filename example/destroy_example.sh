@@ -13,3 +13,5 @@ terraform init \
     -backend-config dynamodb_table="${TF_LOCK_DB}"
 
 terraform destroy --auto-approve
+
+aws ecr delete-repository --repository-name serverless-jenkins-controller --force 

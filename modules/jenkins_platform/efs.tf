@@ -75,9 +75,16 @@ resource "aws_backup_vault" this {
   count = var.efs_enable_backup ? 1 : 0
 
   name = "${var.name_prefix}-vault"
-  tags = var.tags
+  tags = var.tags 
+  provisioner "local-exec" {
+    command = format(
+      "bash ./delete_vault_backups.sh %s %s",
+      self.name,
+      split(":", self.arn)[3]
+    )
+    when = destroy
+  }
 }
-
 resource "aws_backup_selection" this {
   count = var.efs_enable_backup ? 1 : 0
 

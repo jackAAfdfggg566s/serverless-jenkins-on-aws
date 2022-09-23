@@ -51,6 +51,10 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 ```
  docker build -t ${aws_ecr_repository.jenkins_controller.repository_url}:latest ${path.module}/docker/ && \
 ```
+### AWS BackUp Vault force delete enabled, disable if used in production
+
+Script: ./example/delete_vault_backup.sh
+Line 79-86 in ./modules/jenkins_platform/efs.tf
 ## Deployment
 This is packaged as a Terraform module, which means it's not directly deployable. However, there is a deployable example in the `example` directory. To deploy the example:
 
